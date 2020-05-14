@@ -13,6 +13,7 @@
 
     export default {
         name: 'Home',
+        props: ['id'],
         components: {
             HelloWorld, PostCardList
         },
