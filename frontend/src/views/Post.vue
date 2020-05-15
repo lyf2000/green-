@@ -7,7 +7,7 @@
         >
             <v-card-title
             >
-                <v-card-title><h1>iudnbdifunUINUInuinIUN</h1></v-card-title>
+                <v-card-title><h1>{{post.title}}</h1></v-card-title>
                 <v-card-text>
                     <v-list>
                         <v-list-item
@@ -17,17 +17,22 @@
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title>inijniniun
+                                <v-list-item-title>{{author.username}}
                                         <v-btn
                                                 x-small
                                                 color="#00E676"
-                                                dark
+                                                :dark="author.is_friend==='true'"
+                                                :outlined="author.is_friend!=='true'"
                                         >follow
                                         </v-btn>
-                                        <v-icon>mdi-bookmark-outline</v-icon>
-                                        <v-icon>mdi-bookmark</v-icon>
+                                        <v-icon
+                                            v-if="post.marked==='true'"
+                                        >mdi-bookmark</v-icon>
+                                        <v-icon
+                                            v-else
+                                        >mdi-bookmark-outline</v-icon>
                                 </v-list-item-title>
-                                <v-list-item-subtitle>uinuin</v-list-item-subtitle>
+                                <v-list-item-subtitle>{{post.created}}</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
@@ -87,12 +92,15 @@
                 const self = this;
                 self.axiosGet('/posts/' + self.id)
                     .then(function (response) {
-                        const {author, text, title, tags} = response.data;
+                        const {author, text, title, tags, created, marked} = response.data;
                         self.author = author;
                         self.post = {
                             text: text,
                             title: title,
-                            tags: tags
+                            tags: tags,
+                            created: created,
+                            marked: marked,
+
                         }
                     })
             }
