@@ -18,19 +18,21 @@
 
                             <v-list-item-content>
                                 <v-list-item-title>{{author.username}}
-                                        <v-btn
-                                                x-small
-                                                color="#00E676"
-                                                :dark="author.is_friend==='true'"
-                                                :outlined="author.is_friend!=='true'"
-                                        >follow
-                                        </v-btn>
-                                        <v-icon
+                                    <v-btn
+                                            x-small
+                                            color="#00E676"
+                                            :dark="author.is_friend==='true'"
+                                            :outlined="author.is_friend!=='true'"
+                                    >follow
+                                    </v-btn>
+                                    <v-icon
                                             v-if="post.marked==='true'"
-                                        >mdi-bookmark</v-icon>
-                                        <v-icon
+                                    >mdi-bookmark
+                                    </v-icon>
+                                    <v-icon
                                             v-else
-                                        >mdi-bookmark-outline</v-icon>
+                                    >mdi-bookmark-outline
+                                    </v-icon>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>{{post.created}}</v-list-item-subtitle>
                             </v-list-item-content>
@@ -52,18 +54,10 @@
         <v-col
                 cols="6"
         >
-            <v-card-title class="post-text"
-                          outlined
-            >
-                <h1>
-                    wrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeuf</h1>
-                <v-img
-                        width="100%"
-                        src="https://miro.medium.com/max/2000/1*iY6f9EVIPPBM62HtnAEBfA.png"
-                ></v-img>
-                <h1>
-                    wrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeufwrueibheutniuednbeuf</h1>
-            </v-card-title>
+            <markdown-editor
+                    toolbar=""
+                    v-model="content"
+            ></markdown-editor>
         </v-col>
     </v-row>
 </template>
@@ -78,7 +72,7 @@
             return {
                 author: null,
                 post: null,
-
+                content: '# rgfd'
             }
         },
         methods: {
