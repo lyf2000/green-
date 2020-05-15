@@ -18,12 +18,12 @@
 
                             <v-list-item-content>
                                 <v-list-item-title>inijniniun
-                                    <v-btn
-                                            x-small
-                                            color="#00E676"
-                                            dark
-                                    >follow
-                                    </v-btn>
+                                        <v-btn
+                                                x-small
+                                                color="#00E676"
+                                                dark
+                                        >follow
+                                        </v-btn>
                                         <v-icon>mdi-bookmark-outline</v-icon>
                                         <v-icon>mdi-bookmark</v-icon>
                                 </v-list-item-title>
@@ -64,13 +64,41 @@
 </template>
 
 <script>
+    import {AXIOS} from '../main'
+
     export default {
         name: "Post",
         props: ['id'],
+        data() {
+            return {
+                author: null,
+                post: null,
+
+            }
+        },
         methods: {
             f() {
                 console.log(12)
+            },
+            axiosGet(url) {
+                return AXIOS.get(url)
+            },
+            loadPost() {
+                const self = this;
+                self.axiosGet('/posts/' + self.id)
+                    .then(function (response) {
+                        const {author, text, title, tags} = response.data;
+                        self.author = author;
+                        self.post = {
+                            text: text,
+                            title: title,
+                            tags: tags
+                        }
+                    })
             }
+        },
+        created() {
+            this.loadPost()
         }
 
     }

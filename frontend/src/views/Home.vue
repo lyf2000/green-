@@ -9,7 +9,7 @@
     import {AXIOS} from '../main'
 
     import HelloWorld from '@/components/HelloWorld.vue'
-    import PostCardList from '@/components/main/PostCardList.vue'
+    import PostCardList from '@/components/home/PostCardList.vue'
 
     export default {
         name: 'Home',
