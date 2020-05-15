@@ -12,6 +12,8 @@ class Post(models.Model):
     title = models.CharField(max_length=125)
     tags = TaggableManager()
 
+    added = models.ManyToManyField(get_user_model(), related_name='bookmarks', blank=True)
+
     # TODO preview text, main image
 
     text = models.CharField(max_length=200)

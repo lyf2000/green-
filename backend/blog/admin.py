@@ -36,7 +36,7 @@ class PostAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Standard info', {
-            'fields': ('title', 'author', 'text',
+            'fields': ('title', 'author', 'text', 'added'
                        ),
         }),
         ('Tags', {
