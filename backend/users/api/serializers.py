@@ -11,9 +11,12 @@ class OtherUserSerializer(serializers.ModelSerializer):
 
     def get_is_friend(self, obj):
         request = self.context['request']
-        value = 'true'
-        if obj.pk == request.user.pk:
+        value = 'false'
+        user = request.user
+        if user.is_anonymous:
+            return 'anonymous'
+        if obj.pk == user.pk:
             value = 'null'
-        elif obj.pk not in request.user.follow.all().values_list('id', flat=True):
-            value = 'false'
+        elif obj.pk in request.user.follow.all().values_list('id', flat=True):
+            value = 'true'
         return value
