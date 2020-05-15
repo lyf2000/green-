@@ -21,7 +21,7 @@ from . import settings
 api_urlpatterns = [
     path('api/', include('blog.api.urls')),
     path('api/', include('chat.api.urls')),
-    # path('api/', include('users.api.urls'))
+    path('api/', include('users.api.urls')),
 
 ]
 

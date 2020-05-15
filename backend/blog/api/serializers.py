@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from taggit.models import Tag
 from taggit_serializer.serializers import (TagListSerializerField,
-                                           TaggitSerializer)                                           
+                                           TaggitSerializer)
 from blog.models import Post
+from users.api.serializers import OtherUserSerializer
 
 
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
-
     tags = TagListSerializerField()
+    author = OtherUserSerializer()
 
     class Meta:
         model = Post
@@ -15,7 +16,6 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = ('name',)
