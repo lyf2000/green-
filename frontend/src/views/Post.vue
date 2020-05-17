@@ -19,17 +19,18 @@
                             <v-list-item-content>
                                 <v-list-item-title>{{author.username}}
                                     <v-btn
+                                            @click="follow(author.id)"
                                             x-small
                                             color="#00E676"
                                             :dark="author.is_friend==='true'"
                                             :outlined="author.is_friend!=='true'"
                                     >follow
                                     </v-btn>
-                                    <v-icon
+                                    <v-icon @click="bookmarkPost(id)"
                                             v-if="post.marked==='true'"
                                     >mdi-bookmark
                                     </v-icon>
-                                    <v-icon
+                                    <v-icon @click="bookmarkPost(id)"
                                             v-else
                                     >mdi-bookmark-outline
                                     </v-icon>
@@ -97,6 +98,23 @@
 
                         }
                     })
+            },
+            bookmarkPost(id) {
+                // console.log(11);
+                // console.log(this.marked);
+                this.post.marked = this.post.marked!=='true' ? 'true' : 'false'
+                // console.log(this.post.marked);
+                // const self = this;
+                // self.axiosGet('bookmark/' + id)
+                //     .then(function (response) {
+                //
+                //     })
+                //     .catch(function (response) {
+                //         console.log(response)
+                //     })
+            },
+            follow(id) {
+                console.log(id)
             }
         },
         created() {

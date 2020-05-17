@@ -6,11 +6,27 @@ from blog.models import Post
 from users.api.serializers import OtherUserSerializer
 
 
+class PostCreateSerializer(serializers.ModelSerializer):
+    author = OtherUserSerializer(required=False)
+
+    class Meta:
+        model = Post
+        fields = [
+            'text', 'title',
+            'author']
+
+    def create(self, validated_data):
+        return Post.objects.create(
+            **validated_data,
+            author_id=1
+        )
+
+
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
-    tags = TagListSerializerField()
-    author = OtherUserSerializer()
-    created = serializers.DateTimeField(format="%a, %b %Y")
-    marked = serializers.SerializerMethodField()
+    tags = TagListSerializerField(required=False)
+    author = OtherUserSerializer(required=False)
+    created = serializers.DateTimeField(format="%a, %b %Y", required=False)
+    marked = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Post
@@ -18,7 +34,13 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_marked(self, obj):
         return 'false'
+        # return 'true'
 
+    def create(self, validated_data):
+        return Post.objects.create(
+            **validated_data,
+            author_id=1
+        )
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,6 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from taggit.models import Tag
@@ -18,7 +19,7 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_backends = (SearchFilter, OrderingFilter, PostTagFilter)
     # filterset_fields = ('author', 'title')
     search_fields = ('title',)
-    ordering_fields = ('created',)
+    ordering_fields = ('-created',)
     ordering = ('-created',)
 
 
