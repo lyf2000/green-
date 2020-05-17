@@ -17,16 +17,16 @@
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title>{{author.username}}
+                                <v-list-item-title>{{post.author.username}}
                                     <v-btn
-                                            @click="follow(author.id)"
+                                            @click="follow(post.author.id)"
                                             x-small
                                             color="#00E676"
-                                            :dark="author.is_friend==='true'"
-                                            :outlined="author.is_friend!=='true'"
+                                            :dark="post.author.is_friend==='true'"
+                                            :outlined="post.author.is_friend!=='true'"
                                     >follow
                                     </v-btn>
-                                    <v-icon @click="bookmarkPost(id)"
+                                    <v-icon @click.prevent="bookmarkPost(id)"
                                             v-if="post.marked==='true'"
                                     >mdi-bookmark
                                     </v-icon>
@@ -56,8 +56,8 @@
                 cols="6"
         >
             <markdown-editor
-                    toolbar=""
-                    v-model="content"
+                    toolbar="preview"
+                    v-model="post.text"
             ></markdown-editor>
         </v-col>
     </v-row>
@@ -71,9 +71,7 @@
         props: ['id'],
         data() {
             return {
-                author: null,
                 post: null,
-                content: '# rgfd'
             }
         },
         methods: {
@@ -87,16 +85,7 @@
                 const self = this;
                 self.axiosGet('/posts/' + self.id)
                     .then(function (response) {
-                        const {author, text, title, tags, created, marked} = response.data;
-                        self.author = author;
-                        self.post = {
-                            text: text,
-                            title: title,
-                            tags: tags,
-                            created: created,
-                            marked: marked,
-
-                        }
+                        self.post = response.data;
                     })
             },
             bookmarkPost(id) {

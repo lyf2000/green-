@@ -30,7 +30,7 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('author', 'title', 'tags', 'text', 'created', 'marked')
+        fields = ('id', 'author', 'title', 'tags', 'text', 'created', 'marked')
 
     def get_marked(self, obj):
         return 'false'
