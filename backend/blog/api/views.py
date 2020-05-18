@@ -30,11 +30,11 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_backends = (SearchFilter, OrderingFilter, PostTagFilter)
     permission_classes = [ActionBasedPermission]
     action_permissions = {
-        IsAuthenticated: ['update', 'partial_update', 'destroy', 'create'
+        IsAuthenticated: ['update', 'partial_update', 'destroy',
             # , 'list'
                           ],
         AllowAny: ['retrieve'
-            , 'list'
+            , 'list', 'create'
                    ]
     }
     # filterset_fields = ('author', 'title')

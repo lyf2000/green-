@@ -19,6 +19,8 @@ class Post(models.Model):
     text = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
+    main_img = models.FileField(upload_to='uploads/%Y/%m/%d/', null=True, blank=True)
+
     def __str__(self):
         return f'Post: {self.title}'
 

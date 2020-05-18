@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import render
 from django.http.response import JsonResponse
 import ast
@@ -36,3 +37,25 @@ def map(request, pk):
         return JsonResponse({})
 
     return render(request, 'blog/map_test.html', {'meet': meet})
+
+
+class BookForm(forms.ModelForm):
+    """
+    Your `forms.ModelForm` subclass representing the `Book` model directly.
+    """
+
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'author', 'main_img']
+
+
+def p(request):
+
+    if request.method == 'POST':
+        post = BookForm(request.POST, request.FILES)
+        if post.is_valid():
+            post = post.save()
+    context = {
+        'form': BookForm()
+    }
+    return render(request, 'blog/p.html', context)

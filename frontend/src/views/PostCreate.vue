@@ -1,5 +1,11 @@
 <template>
     <div class="post-create">
+        <v-file-input
+                label="File input"
+                filled
+                prepend-icon="mdi-camera"
+                v-model="img"
+        ></v-file-input>
         <v-btn
                 @click="savePost"
         >Save
@@ -22,6 +28,7 @@
             return {
                 text: '',
                 title: '',
+                img: '',
 
             }
         },
@@ -34,11 +41,13 @@
             },
             savePost() {
                 const self = this;
-                const data = {
-                    title: self.title,
-                    text: self.text
-                };
-                self.$http.post('/posts/', data)
+
+                let formData = new FormData();
+                formData.append("main_img", self.img);
+                formData.append("title", self.title);
+                formData.append("text", self.text);
+
+                self.$http.post('/posts/', formData)
                     .then(function (response) {
                         console.log(response)
                     })
