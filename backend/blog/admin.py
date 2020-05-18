@@ -1,8 +1,10 @@
+import datetime
+import os
+
 from django import forms
 from django.contrib import admin
 
 # Register your models here.
-
 
 
 # from django.contrib.gis.db import models
@@ -13,6 +15,7 @@ from django.contrib import admin
 #     formfield_overrides = {
 #         models.PointField: {"widget": GooglePointFieldWidget}
 #     }
+from django.db.models import Count
 
 from taggit.forms import TagField
 from taggit_labels.widgets import LabelWidget
@@ -30,13 +33,42 @@ class PostForm(forms.ModelForm):
         exclude = []
 
 
+class LastWeekMonthFilter(admin.SimpleListFilter):
+    title = 'is_very_benevolent'
+
+    parameter_name = 'is_very_benevolent'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('week', 'Week'),
+            ('month', 'Month'),
+        )
+
+    def queryset(self, request, queryset):
+        value = self.value()
+
+        if value == 'week':
+            return queryset.filter(created__gte=datetime.datetime.now() - datetime.timedelta(days=7))
+        elif value == 'month':
+            return queryset.filter(created__gte=datetime.datetime.now() - datetime.timedelta(days=30))
+        return queryset
+
+
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created', 'author', 'added_count', 'tags_display',)
+    readonly_fields = ['main_img_image', 'created']
+
+    list_filter = [LastWeekMonthFilter]
     form = PostForm
 
     fieldsets = (
         ('Standard info', {
-            'fields': ('title', 'author', 'text', 'added', 'main_img'
+            'fields': ('title', 'created', 'author', 'text', 'added',
+                       ),
+        }),
+        ('Image info', {
+            'fields': ('main_img', 'main_img_image',
                        ),
         }),
         ('Tags', {
@@ -44,6 +76,34 @@ class PostAdmin(admin.ModelAdmin):
                        ),
         })
     )
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+
+        queryset = queryset.annotate(
+            _added_count=Count("added", distinct=True),
+
+        )
+        return queryset
+
+    def main_img_image(self, obj):
+        return mark_safe(
+            '<img src="{url}" width="{width}" height={height} />'
+                .format(
+                url=os.path.join('media/', obj.main_img.url),
+                width=obj.main_img.width,
+                height=obj.main_img.height,
+            ))
+
+    def added_count(self, obj):
+        return obj._added_count
+
+    added_count.admin_order_field = '_added_count'
+
+    def tags_display(self, obj):
+        return ", ".join([child.name for child in obj.tags.all()])
+
+    tags_display.short_description = "Tags"
 
 
 class MeetForm(forms.ModelForm):
@@ -59,20 +119,19 @@ class MeetAdmin(admin.ModelAdmin):
     change_form_template = 'admin/meet_change_form.html'
     form = MeetForm
 
-    readonly_fields = ('mapp', )
+    readonly_fields = ('mapp',)
 
     fieldsets = (
         ('Standard info', {
             'fields': ('lat', 'lng', ('mapp'),
-                        ),
+                       ),
         }),
         ('Tags', {
-                'fields': ('tags',
-                        ),
+            'fields': ('tags',
+                       ),
         }),
-        
+
     )
-        
 
     def mapp(self, obj):
         return mark_safe('<div id="map"></div>')

@@ -2,7 +2,7 @@ from django.db.models import Count
 from django_filters import rest_framework as filters
 from rest_framework.filters import BaseFilterBackend
 from blog.models import Post
-
+from django.db.models import Func, F, Value
 
 class PostFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='icontains')

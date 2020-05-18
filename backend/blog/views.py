@@ -9,6 +9,7 @@ from blog.api.filters import PostFilter
 from blog.forms import AddressForm
 from blog.models import Meet, Post
 
+
 def index(request):
     if request.is_ajax():
         print('AJAX')
@@ -16,6 +17,7 @@ def index(request):
         return JsonResponse({'data': 'OK'})
 
     return render(request, 'blog/index.html')
+
 
 def post_list(request):
     f = PostFilter(request.GET, queryset=Post.objects.all())
@@ -51,13 +53,13 @@ class BookForm(forms.ModelForm):
 
 
 def p(request):
-
     if request.method == 'POST':
         post = AddressForm(request.POST, request.FILES)
         if post.is_valid():
-            c = post.cleaned_data
-            c.update({'author_id': request.user.pk})
-            Post.objects.create(**c)
+            post.save()
+            # c = post.cleaned_data
+            # c.update({'author_id': request.user.pk})
+            # Post.objects.create(**c)
 
         else:
             context = {}
@@ -65,7 +67,7 @@ def p(request):
             # context['form_errors'] = post.errors
 
             return render(request, 'blog/p.html', context)
-    form = AddressForm()
+    form = AddressForm(initial={'author': request.user})
     context = {
         'form': form
     }

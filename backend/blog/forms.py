@@ -5,13 +5,19 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 from blog.models import Post
 from users.models import User
 
-class AddressForm(forms.Form):
+class AddressForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     text = forms.CharField(
         # label='Text',
         widget=forms.Textarea(attrs={'placeholder': 'Text'})
     )
     main_img = forms.FileField(required=False)
+
+    author = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput())
+
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'main_img', 'author']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,5 +33,6 @@ class AddressForm(forms.Form):
                 Column('text', css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
+            'author',
             Submit('submit', 'Create')
         )
