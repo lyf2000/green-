@@ -6,6 +6,7 @@ import ast
 from django.views.generic import DetailView
 
 from blog.api.filters import PostFilter
+from blog.forms import AddressForm
 from blog.models import Meet, Post
 
 def index(request):
@@ -52,10 +53,21 @@ class BookForm(forms.ModelForm):
 def p(request):
 
     if request.method == 'POST':
-        post = BookForm(request.POST, request.FILES)
+        post = AddressForm(request.POST, request.FILES)
         if post.is_valid():
-            post = post.save()
+            c = post.cleaned_data
+            c.update({'author_id': request.user.pk})
+            Post.objects.create(**c)
+
+        else:
+            context = {}
+            context['form'] = post
+            # context['form_errors'] = post.errors
+
+            return render(request, 'blog/p.html', context)
+    form = AddressForm()
     context = {
-        'form': BookForm()
+        'form': form
     }
+
     return render(request, 'blog/p.html', context)

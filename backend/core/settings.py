@@ -52,7 +52,11 @@ INSTALLED_APPS = [
     'taggit_serializer',
     'channels',
     'corsheaders',
+    'crispy_forms',
+
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

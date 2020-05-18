@@ -47,10 +47,8 @@
                cols="8"
         >
             <v-img
-                    src="https://miro.medium.com/max/2000/1*iY6f9EVIPPBM62HtnAEBfA.png"
-            >
-
-            </v-img>
+                    :src="post.main_img"
+            ></v-img>
         </v-col>
         <v-col
                 cols="6"
