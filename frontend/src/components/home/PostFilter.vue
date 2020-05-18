@@ -66,7 +66,6 @@
 </template>
 
 <script>
-    import {AXIOS} from "../../main";
 
     export default {
         name: "PostFilter",
@@ -107,7 +106,7 @@
             },
             loadTagList() {
                 const self = this;
-                AXIOS.get('/tags')
+                this.$http.get('/tags')
                     .then(function (response) {
                         self.tags = response.data.map(tag => {
                             return tag.name

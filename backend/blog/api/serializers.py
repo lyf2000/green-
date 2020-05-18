@@ -7,22 +7,6 @@ from blog.models import Post
 from users.api.serializers import OtherUserSerializer
 
 
-class PostCreateSerializer(serializers.ModelSerializer):
-    author = OtherUserSerializer(required=False)
-
-    class Meta:
-        model = Post
-        fields = [
-            'text', 'title',
-            'author']
-
-    def create(self, validated_data):
-        return Post.objects.create(
-            **validated_data,
-            author_id=1
-        )
-
-
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     tags = TagListSerializerField(required=False)
     author = OtherUserSerializer(required=False, read_only=True)

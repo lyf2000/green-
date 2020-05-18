@@ -6,7 +6,6 @@
 </template>
 
 <script>
-    import {AXIOS} from '../main'
 
     import HelloWorld from '@/components/HelloWorld.vue'
     import PostCardList from '@/components/home/PostCardList.vue'

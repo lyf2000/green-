@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
-import axios from 'axios'
+import AXIOS from './router/axios'
 
 
 import 'v-markdown-editor/dist/v-markdown-editor.css';
@@ -12,9 +12,11 @@ import Editor from 'v-markdown-editor'
 Vue.config.productionTip = false;
 Vue.use(Editor);
 
-export const AXIOS = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api'
-});
+
+
+Vue.prototype.$http = AXIOS;
+
+
 new Vue({
     router,
     store,

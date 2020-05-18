@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import {AXIOS} from '../main'
 
     export default {
         name: "PostCreate",
@@ -28,10 +27,10 @@
         },
         methods: {
             axiosPost(url, data = {}) {
-                return AXIOS.post(url, data)
+                return this.$http.post(url, data)
             },
             axiosGet(url) {
-                return AXIOS.get(url)
+                return this.$http.get(url)
             },
             savePost() {
                 const self = this;
@@ -39,7 +38,7 @@
                     title: self.title,
                     text: self.text
                 };
-                self.axiosPost('/posts/', data)
+                self.$http.post('/posts/', data)
                     .then(function (response) {
                         console.log(response)
                     })

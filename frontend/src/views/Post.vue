@@ -64,7 +64,6 @@
 </template>
 
 <script>
-    import {AXIOS} from '../main'
 
     export default {
         name: "Post",
@@ -79,7 +78,7 @@
                 console.log(12)
             },
             axiosGet(url) {
-                return AXIOS.get(url)
+                return this.$http.get(url)
             },
             loadPost() {
                 const self = this;

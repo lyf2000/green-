@@ -21,8 +21,6 @@
     import PostCardItem from "./PostCardItem";
     import PostFilter from "./PostFilter";
 
-    import {AXIOS} from "../../main";
-
     export default {
         name: "PostCardList",
         data() {
@@ -45,7 +43,7 @@
                 console.log(123);
             },
             axiosGet(url) {
-                return AXIOS.get(url)
+                return this.$http.get(url)
             },
             otherPage(url) {
                 const self = this;
@@ -70,16 +68,12 @@
                     })
             },
             prevPage() {
-                console.log('PREV');
                 if (this.prev) {
-                    console.log(this.prev);
                     this.otherPage(this.prev)
                 }
             },
             nextPage() {
-                console.log('NEXT');
                 if (this.next) {
-                    console.log(this.next);
                     this.otherPage(this.next)
                 }
             }

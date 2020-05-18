@@ -21,6 +21,11 @@ const routes = [
         props: true,
         name: 'Post',
         component: () => import('../views/Post')
+    }, {
+        path: '/login',
+        props: true,
+        name: 'SignIn',
+        component: () => import('../views/SignIn')
     },
 
     // {
