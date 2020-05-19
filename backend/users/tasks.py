@@ -1,3 +1,5 @@
+from time import sleep
+
 from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
@@ -48,3 +50,8 @@ def send_reset_email(to_email, domain, site_name, use_https, subject_template_na
             subject_template_name, email_template_name, context, from_email,
             to_email, html_email_template_name=html_email_template_name,
         )
+
+@shared_task
+def a():
+    sleep(2)
+    return 1

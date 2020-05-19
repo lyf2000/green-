@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView as passwordResetConfirmView, \
     PasswordResetDoneView as passwordResetDoneView, PasswordResetCompleteView as passwordResetCompleteView
 from django.contrib.sites.shortcuts import get_current_site
@@ -10,6 +12,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.timezone import make_aware
 
 from users.forms import SignupForm, PasswordRestForm, SetPasswordForm
 from users.models import User
@@ -24,6 +27,7 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+
             current_site = get_current_site(request)
             domain = current_site.domain
             to_email = form.cleaned_data.get('email')

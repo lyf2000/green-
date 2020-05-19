@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import timedelta
 
+from celery.schedules import crontab
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -199,8 +201,8 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_BEAT_SCHEDULE = {
 
     # Executes every Friday at 4pm
-    # 'get_new_JWT': {
-    #      'task': 'app1.tasks.get_JWT',
-    #      'schedule': timedelta(seconds=4),
+    # 'a': {
+    #      'task': 'users.tasks.a',
+    #      'schedule': crontab(minute='*'),
     #     },
 }
