@@ -1,8 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-# from ckeditor_uploader.fields import RichTextUploadingField
-
-# Create your models here.
 from taggit.managers import TaggableManager
 
 
