@@ -29,7 +29,7 @@ def signup(request):
             to_email = form.cleaned_data.get('email')
             send_register_confirmation_email.delay(user.pk, domain, to_email)
 
-            return HttpResponse('Please confirm your email address to complete the registration')
+            return HttpResponse('Please confirm your email address (if it exists) to complete the registration')
     else:
         form = SignupForm()
     return render(request, 'users/signup.html', {'form': form})
@@ -53,7 +53,6 @@ def reset(request):
     if request.method == 'POST':
         form = PasswordRestForm(request.POST)
         if form.is_valid():
-            to_email = [form.cleaned_data['email']]
 
             # current_site = get_current_site(request)
             # user = request.user
