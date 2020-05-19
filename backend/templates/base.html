@@ -5,8 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>#}
     <script src="{% static 'js/3.4.1_jquery.js' %}"></script>
     <script src="{% static 'js/general.js' %}"></script>
 
@@ -37,7 +38,7 @@
         }
 
         $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
+            beforeSend: function (xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
@@ -53,11 +54,12 @@
 </header>
 <body>
 
-    {% block content %}{% endblock %}
+<div class="container">
+    {% block content %}
 
 
-    
-    
+    {% endblock %}
+</div>
 
 </body>
 </html>
