@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, re_path
-from users.views import signup, activate, reset, Reset, PasswordResetConfirmView
+from users.views import signup, activate, reset, Reset, PasswordResetConfirmView, PasswordResetDoneView, \
+    PasswordResetCompleteView
 
 app_name = 'users'
 
@@ -11,4 +12,6 @@ urlpatterns = [
             activate, name='activate'),
     path('reset/', Reset.as_view(), name='reset'),
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]

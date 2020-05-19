@@ -1,4 +1,5 @@
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView as passwordResetConfirmView
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView as passwordResetConfirmView, \
+    PasswordResetDoneView as passwordResetDoneView, PasswordResetCompleteView as passwordResetCompleteView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
@@ -83,7 +85,16 @@ class Reset(PasswordResetView):
     form_class = PasswordRestForm
     template_name = 'users/password_reset.html'
     html_email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
 
 class PasswordResetConfirmView(passwordResetConfirmView):
     form_class = SetPasswordForm
     template_name = 'users/password_reset_confirm.html'
+    success_url = reverse_lazy('users:password_reset_complete')
+
+
+class PasswordResetDoneView(passwordResetDoneView):
+    template_name = 'users/password_reset_done.html'
+
+class PasswordResetCompleteView(passwordResetCompleteView):
+    template_name = 'users/password_reset_complete.html'
