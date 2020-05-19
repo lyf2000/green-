@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Row, Column, Submit, Div, HTML
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm as setPasswordForm
 
 from users.models import User
 
@@ -119,4 +119,37 @@ class PasswordRestForm(PasswordResetForm):
                 css_class='form-row'
             ),
             Submit('submit', 'Reset password'),
+        )
+
+
+class SetPasswordForm(setPasswordForm):
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(
+            attrs={'placeholder': 'Email'}
+        ),
+        strip=False,
+        # help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput,
+    )
+
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+
+        self.helper = FormHelper()
+        # self.helper.form_show_labels = False
+        self.helper.layout = Layout(
+            Row(
+                Column('new_password1', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('new_password2', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Set new password'),
         )

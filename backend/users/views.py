@@ -1,3 +1,4 @@
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView as passwordResetConfirmView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from users.forms import SignupForm, PasswordRestForm
+from users.forms import SignupForm, PasswordRestForm, SetPasswordForm
 from users.models import User
 from users.tokens import account_activation_token
 
@@ -76,4 +77,13 @@ def reset(request):
 
             form.save(html_email_template_name='users/password_reset_email.html', request=request)
     form = PasswordRestForm()
-    return render(request, 'users/reset.html', {'form': form})
+    return render(request, 'users/password_reset.html', {'form': form})
+
+class Reset(PasswordResetView):
+    form_class = PasswordRestForm
+    template_name = 'users/password_reset.html'
+    html_email_template_name = 'users/password_reset_email.html'
+
+class PasswordResetConfirmView(passwordResetConfirmView):
+    form_class = SetPasswordForm
+    template_name = 'users/password_reset_confirm.html'
