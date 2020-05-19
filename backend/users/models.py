@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
 
+
 class User(AbstractUser):
     follow = models.ManyToManyField('self', related_name='followers', null=True, blank=True)
+    email = models.EmailField(_('email address'), unique=True)
+
+    # REQUIRED_FIELDS = ['email']
 
     def bookmark_post(self, post_id):
         try:
@@ -14,4 +18,5 @@ class User(AbstractUser):
             self.bookmarks.remove(post_id)
         except Exception as e:
             self.bookmarks.add(post_id)
+
         return True

@@ -1,10 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
+
+from .forms import SignupForm
 from .models import User
 
 
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
+    # add_form = SignupForm
+    # add_form_template = 'users/signup.html'
     # fieldsets = (
     #     (None, {'fields': ('username', 'email', 'password')}),
     #     ('Personal info', {'fields': ('first_name', 'last_name',)}),

@@ -62,6 +62,10 @@ from users.models import User
 #         return self.initial["password"]
 from users.tasks import send_reset_email
 
+class AdminUserCreate(UserCreationForm):
+    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+
+
 
 class SignupForm(UserCreationForm):
     email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))

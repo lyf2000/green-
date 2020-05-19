@@ -118,11 +118,22 @@ class MeetForm(forms.ModelForm):
 class MeetAdmin(admin.ModelAdmin):
     change_form_template = 'admin/meet_change_form.html'
     form = MeetForm
+    filter_vertical = ['participants']
 
     readonly_fields = ('mapp',)
 
     fieldsets = (
-        ('Standard info', {
+        ('Participants info', {
+            'fields': ('participants',
+                       ),
+            'classes': ['collapse']
+
+        }),
+        ('Meet Process', {
+            'fields': ('meet_date',
+                       ),
+        }),
+        ('Map info', {
             'fields': ('lat', 'lng', ('mapp'),
                        ),
         }),

@@ -31,5 +31,8 @@ class Meet(models.Model):
 
     tags = TaggableManager()
 
+    meet_date = models.DateTimeField()
+    participants = models.ManyToManyField(get_user_model(), related_name='meets', blank=True)
+
     def __str__(self):
         return f'Meet({self.pk}): ({self.lat}; {self.lng})'

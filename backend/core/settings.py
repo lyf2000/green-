@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'channels',
     'corsheaders',
     'crispy_forms',
+    'django_extensions',
 
 ]
 
