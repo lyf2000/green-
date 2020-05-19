@@ -33,7 +33,7 @@ def signup(request):
             to_email = form.cleaned_data.get('email')
             send_register_confirmation_email.delay(user.pk, domain, to_email)
 
-            return HttpResponse('Please confirm your email address (if it exists) to complete the registration')
+            return render(request, 'users/signup_confirm_sent.html')
     else:
         form = SignupForm()
     return render(request, 'users/signup.html', {'form': form})
@@ -48,9 +48,10 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'users/signup_activated.html')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request, 'users/signup_activated_fail.html')
+
 
 
 def reset(request):
