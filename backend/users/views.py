@@ -58,6 +58,22 @@ def reset(request):
     if request.method == 'POST':
         form = PasswordRestForm(request.POST)
         if form.is_valid():
-            a = 2
+            to_email = [form.cleaned_data['email']]
+
+            # current_site = get_current_site(request)
+            # user = request.user
+            # mail_subject = 'Activate your blog account.'
+            # message = render_to_string('users/acc_active_email.html', {
+            #     'user': user,
+            #     'domain': current_site.domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': account_activation_token.make_token(user),
+            # })
+            #
+            # to_email = form.cleaned_data.get('email')
+            # msg = EmailMultiAlternatives(mail_subject, '', 'from_email', [to_email])
+            # msg.attach_alternative(message, "text/html")
+
+            form.save(html_email_template_name='users/password_reset_email.html', request=request)
     form = PasswordRestForm()
     return render(request, 'users/reset.html', {'form': form})
