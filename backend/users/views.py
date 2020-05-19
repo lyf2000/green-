@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from users.forms import SignupForm, PasswordRestForm, SetPasswordForm
 from users.models import User
+from users.tasks import send_register_confirmation_email
 from users.tokens import account_activation_token
 
 
@@ -24,19 +25,10 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            mail_subject = 'Activate your blog account.'
-            message = render_to_string('users/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-
-
+            domain = current_site.domain
             to_email = form.cleaned_data.get('email')
-            msg = EmailMultiAlternatives(mail_subject, '', 'from_email', [to_email])
-            msg.attach_alternative(message, "text/html")
-            msg.send()
+            send_register_confirmation_email.delay(user.pk, domain, to_email)
+
             return HttpResponse('Please confirm your email address to complete the registration')
     else:
         form = SignupForm()

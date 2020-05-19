@@ -192,3 +192,15 @@ EMAIL_HOST_USER = 'nda030600@gmail.com'
 EMAIL_HOST_PASSWORD = 'LFVBH0110'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_BEAT_SCHEDULE = {
+
+    # Executes every Friday at 4pm
+    # 'get_new_JWT': {
+    #      'task': 'app1.tasks.get_JWT',
+    #      'schedule': timedelta(seconds=4),
+    #     },
+}

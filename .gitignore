@@ -279,3 +279,7 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+*.bak
+*.dat
+*.dir
+*.rdb
