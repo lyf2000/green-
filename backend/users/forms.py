@@ -151,7 +151,7 @@ class PasswordRestForm(PasswordResetForm):
         else:
             site_name = domain = domain_override
 
-        send_reset_email.delay(to_email, domain, site_name, use_https, subject_template_name, email_template_name, from_email, html_email_template_name)
+        send_reset_email.apply_async(args=(to_email, domain, site_name, use_https, subject_template_name, email_template_name, from_email, html_email_template_name))
         # for user in users:
         #
         #     context = {

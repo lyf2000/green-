@@ -1,8 +1,9 @@
+import datetime
+
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http.response import JsonResponse
-import ast
+from .tasks import remind_meets
 # Create your views here.
 from django.views.generic import DetailView
 
@@ -34,13 +35,14 @@ def map(request, pk):
     meet = Meet.objects.get(id=pk)
     return render(request, 'blog/map_test.html', {'meet': meet})
 
+
 @login_required
 def meet_create(request):
     if request.method == 'POST':
         meet = MeetForm(request.POST)
         if meet.is_valid():
             meet = meet.save()
-            a=2
+            remind_meets.apply_async(args=(meet.pk,), eta=meet.meet_date - datetime.timedelta(hours=1))
     form = MeetForm()
     return render(request, 'blog/meet_create.html', {'form': form})
 

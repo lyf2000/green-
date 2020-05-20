@@ -28,6 +28,7 @@ def send_message(template_name, message_context, mail_subject, to_email):
     msg = EmailMultiAlternatives(mail_subject, '', '', [to_email])
     msg.attach_alternative(message, "text/html")
     msg.send()
+    print('remind_meets send_message to', to_email)
 
 
 @shared_task
