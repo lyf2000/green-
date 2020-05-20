@@ -11,6 +11,7 @@ from blog.api.filters import PostFilter
 from blog.forms import PostForm, MeetForm
 from blog.models import Meet, Post
 
+TIMEDELTA_WITH_UTC_ERROR = datetime.timedelta(hours=3)
 
 # def index(request):
 #     if request.is_ajax():
@@ -42,7 +43,7 @@ def meet_create(request):
         meet = MeetForm(request.POST)
         if meet.is_valid():
             meet = meet.save()
-            remind_meets.apply_async(args=(meet.pk,), eta=meet.meet_date - datetime.timedelta(hours=1))
+            remind_meets.apply_async(args=(meet.pk,), eta=meet.meet_date - TIMEDELTA_WITH_UTC_ERROR - datetime.timedelta(hours=1))
     form = MeetForm()
     return render(request, 'blog/meet_create.html', {'form': form})
 
