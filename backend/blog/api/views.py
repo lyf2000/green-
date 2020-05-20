@@ -47,10 +47,9 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
-#     TODO add permission
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def bookmark_post(request, pk):
     user = request.user
-    res=user.bookmark_post(pk)
-    return Response()
+    user.bookmark_post(pk)
+    return Response(status=200)

@@ -16,6 +16,7 @@ import os
 from datetime import timedelta
 
 from celery.schedules import crontab
+from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -151,6 +152,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGIN_URL = reverse_lazy('users:login')
+
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATIC_ROOT = '/home/admin/openunishkola/openunishkola/staticfiles/'
@@ -167,23 +172,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TAGGIT_CASE_INSENSITIVE = True
 
-# TODO max page size
-# DRF
-# REST_FRAMEWORK = {
-#     'DEFAULT_FILTER_BACKENDS': (
-#         'django_filters.rest_framework.DjangoFilterBackend',
-#     ),
-# }
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'PAGE_SIZE': 100,
 }
 
 SIMPLE_JWT = {
 'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1.5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 
     # 'ACCESS_TOKEN_LIFETIME': timedelta(seconds=8),
     # 'REFRESH_TOKEN_LIFETIME': timedelta(seconds=20),

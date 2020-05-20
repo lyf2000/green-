@@ -7,7 +7,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm as setPasswordForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm as setPasswordForm, \
+    AuthenticationForm
 
 from users.models import User
 
@@ -132,7 +133,7 @@ class PasswordRestForm(PasswordResetForm):
 
     def save(self, domain_override=None,
              subject_template_name='registration/password_reset_subject.txt',
-             email_template_name='registration/password_reset_email.html',
+             email_template_name='users/password_reset_email.html',
              use_https=False, token_generator=default_token_generator,
              from_email=None, request=None, html_email_template_name=None,
              extra_email_context=None):
@@ -199,4 +200,43 @@ class SetPasswordForm(setPasswordForm):
                 css_class='form-row'
             ),
             Submit('submit', 'Set new password'),
+        )
+
+class SignInForm(AuthenticationForm):
+    # email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+    # password1 = forms.CharField(
+    #     # label=_("Password"),
+    #     strip=False,
+    #     widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
+    #     # help_text=password_validation.password_validators_help_text_html(),
+    # )
+    # password2 = forms.CharField(
+    #     # label=_("Password confirmation"),
+    #     widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation'}),
+    #     strip=False,
+    #     help_text=_("Enter the same password as before, for verification."),
+    # )
+    #
+    # class Meta:
+    #     model = User
+    #     fields = ('username', 'email', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = True
+        self.helper.layout = Layout(
+            Row(
+                Column('username', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('password', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            # Row(
+            #     Column('password2', css_class='form-group col-md-6 mb-0'),
+            #     css_class='form-row'
+            # ),
+            Submit('submit', 'Create')
         )

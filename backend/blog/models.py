@@ -11,8 +11,6 @@ class Post(models.Model):
 
     added = models.ManyToManyField(get_user_model(), related_name='bookmarks', blank=True)
 
-    # TODO preview text, main image
-
     text = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
