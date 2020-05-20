@@ -2,10 +2,11 @@ import datetime
 
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from .tasks import remind_meets
 # Create your views here.
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from blog.api.filters import PostFilter
 from blog.forms import PostForm, MeetForm
@@ -32,10 +33,17 @@ class PostDetailView(DetailView):
     template_name = 'blog/post_detail.html'
 
 
-def map(request, pk):
-    meet = Meet.objects.get(id=pk)
-    return render(request, 'blog/map_test.html', {'meet': meet})
+def meet_detail(request, pk):
+    try:
+        meet = Meet.objects.get(id=pk)
+    except Meet.DoesNotExist:
+        return HttpResponseNotFound("Meeting was not found")
+    return render(request, 'blog/meet_detail.html', {'meet': meet})
 
+
+class MeetListView(ListView):
+    model = Meet
+    template_name = 'blog/meet_list.html'
 
 @login_required
 def meet_create(request):

@@ -18,6 +18,7 @@ def remind_meets(meet_id):
         context = {
             'username': user.username,
             'meet_date': meet.meet_date.strftime('%d/%m/%Y %H:%M'),
+            'title': meet.title
         }
         send_message.delay('blog/meeting_remind.html', context, mail_subject, user.email)
 

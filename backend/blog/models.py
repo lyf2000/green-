@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse_lazy
 from taggit.managers import TaggableManager
 
 
@@ -31,5 +32,13 @@ class Meet(models.Model):
     meet_date = models.DateTimeField()
     participants = models.ManyToManyField(get_user_model(), related_name='meets', blank=True)
 
+    ordering = ['-meet_date']
+
     def __str__(self):
         return f'Meet({self.pk}): ({self.lat}; {self.lng})'
+
+    def get_normal_time(self):
+        return self.meet_date.strftime('%Y-%m-%d %H:%M')
+
+    def get_absolute_url(self):
+        return reverse_lazy('blog:meet-detail', args=[self.pk])
