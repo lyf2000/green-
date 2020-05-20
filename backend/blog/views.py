@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http.response import JsonResponse
 import ast
@@ -51,25 +52,20 @@ class BookForm(forms.ModelForm):
         model = Post
         fields = ['title', 'text', 'author', 'main_img']
 
-
-def p(request):
+@login_required
+def post_create(request):
     if request.method == 'POST':
         post = AddressForm(request.POST, request.FILES)
         if post.is_valid():
             post.save()
-            # c = post.cleaned_data
-            # c.update({'author_id': request.user.pk})
-            # Post.objects.create(**c)
 
         else:
             context = {}
             context['form'] = post
-            # context['form_errors'] = post.errors
-
-            return render(request, 'blog/p.html', context)
+            return render(request, 'blog/post_create.html', context)
     form = AddressForm(initial={'author': request.user})
     context = {
         'form': form
     }
 
-    return render(request, 'blog/p.html', context)
+    return render(request, 'blog/post_create.html', context)
