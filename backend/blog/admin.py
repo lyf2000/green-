@@ -134,7 +134,7 @@ class MeetAdmin(admin.ModelAdmin):
                        ),
         }),
         ('Map info', {
-            'fields': ('lat', 'lng', ('mapp'),
+            'fields': ('title', 'lat', 'lng', ('mapp'),
                        ),
         }),
         ('Tags', {

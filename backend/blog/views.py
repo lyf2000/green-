@@ -3,7 +3,9 @@ import datetime
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
+
 from .tasks import remind_meets
 # Create your views here.
 from django.views.generic import DetailView, ListView
@@ -36,8 +38,8 @@ class PostDetailView(DetailView):
 def meet_detail(request, pk):
     try:
         meet = Meet.objects.get(id=pk)
-    except Meet.DoesNotExist:
-        return HttpResponseNotFound("Meeting was not found")
+    except Meet.DoesNotExist as e:
+        raise e
     return render(request, 'blog/meet_detail.html', {'meet': meet})
 
 
@@ -83,3 +85,13 @@ def post_create(request):
     }
 
     return render(request, 'blog/post_create.html', context)
+
+
+def e_handler404(request, exception):
+    context = RequestContext(request)
+    response = render_to_response('404.html', context)
+    response.status_code = 404
+    return response
+
+def e_handler500(request):
+    return render(request,'500.html')
