@@ -1,14 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
-from .views import post_list, PostDetailView, map, post_create
+from .views import meet_create, post_create
 
 app_name = 'blog'
 
 urlpatterns = [
-    # path('map/<int:pk>/', map, name='map'),
-    # path('posts/', post_list, name='post-list'),
-    # path('posts/<int:pk>', PostDetailView.as_view(), name='post-detail'),
+    path('meet/create', meet_create, name='meet-create'),
     path('post/create/', post_create, name='post-create')
 ]

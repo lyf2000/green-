@@ -1,3 +1,21 @@
+let send_ajax = (url, data, type, success = null, error = null) => {
+
+
+    // if (type == 'POST' || type == 'post') {
+
+    // }
+
+    $.ajax({
+        url: url,
+        type: type,
+        data: data,
+        datatype: "json",
+        success: success,
+        error: error
+    });
+    // return false;
+};
+
 
 function initMap() {
 
@@ -37,13 +55,17 @@ function initMap() {
     //   });
     
     map.addListener('click', function(e) {
-        // alert(e.latLng);
-    
+        let coords = e.latLng.toString().replace(/[{()}]/g, '').split(',');
+        console.log(coords[1]);
+        $('#id_lat').val(+coords[0]);
+        $('#id_lng').val(+coords[1])
+
         currMarker.setMap(null);
         currMarker = new google.maps.Marker({
                 position: e.latLng,
                 map: map
       });
+        // console.log(e.latLng);
     })
     
     

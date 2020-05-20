@@ -1,11 +1,64 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
-
-from blog.models import Post
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
+from blog.models import Post, Meet
 from users.models import User
 
-class AddressForm(forms.ModelForm):
+
+def f(v):
+    a = 2
+    raise ValidationError()
+
+
+class MeetForm(forms.ModelForm):
+    # title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    # text = forms.CharField(
+    #     label='Text',
+    # widget=forms.Textarea(attrs={'placeholder': 'Text'})
+    # )
+
+    meet_date = forms.DateTimeField(input_formats=['%Y-%m-%dT%H:%M'],
+                                    widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+                                    help_text=_("Speсify thr date and time of the meet"),
+                                    validators=[])
+
+    lat = forms.FloatField(
+        widget=forms.HiddenInput()
+    )
+    lng = forms.FloatField(
+        widget=forms.HiddenInput()
+    )
+
+    class Meta:
+        model = Meet
+        fields = ['meet_date', 'lat', 'lng']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = True
+        self.helper.layout = Layout(
+            Row(
+                Column('meet_date', css_class='form-group col-md-3 mb-0'),
+                # Column('main_img', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('lat', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('lng', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+
+            Submit('submit', 'Create')
+        )
+
+
+class PostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     text = forms.CharField(
         # label='Text',

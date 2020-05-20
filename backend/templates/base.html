@@ -10,10 +10,14 @@
     {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>#}
     <script src="{% static 'js/3.4.1_jquery.js' %}"></script>
     <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
 
+{#    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>#}
+{#    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>#}
 
+    {% block links %}
 
-
+    {% endblock %}
 
 </head>
 <header>
@@ -30,6 +34,7 @@
 </div>
 
 {% include 'footer.html' %}
+
 
 
 
@@ -67,6 +72,8 @@
         });
 
     </script>
+
+{% block js %}{% endblock %}
 
 </body>
 </html>

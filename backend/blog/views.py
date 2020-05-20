@@ -7,7 +7,7 @@ import ast
 from django.views.generic import DetailView
 
 from blog.api.filters import PostFilter
-from blog.forms import AddressForm
+from blog.forms import PostForm, MeetForm
 from blog.models import Meet, Post
 
 
@@ -32,15 +32,17 @@ class PostDetailView(DetailView):
 
 def map(request, pk):
     meet = Meet.objects.get(id=pk)
-    if request.is_ajax():
-        coords = ast.literal_eval(request.POST.get('coords', None))
-        print(coords[0])
-        meet.lat = coords[0]
-        meet.lng = coords[1]
-        meet.save()
-        return JsonResponse({})
-
     return render(request, 'blog/map_test.html', {'meet': meet})
+
+
+def meet_create(request):
+    if request.method == 'POST':
+        meet = MeetForm(request.POST)
+        if meet.is_valid():
+            meet = meet.save()
+            a=2
+    form = MeetForm()
+    return render(request, 'blog/meet_create.html', {'form': form})
 
 
 class BookForm(forms.ModelForm):
@@ -52,10 +54,11 @@ class BookForm(forms.ModelForm):
         model = Post
         fields = ['title', 'text', 'author', 'main_img']
 
+
 @login_required
 def post_create(request):
     if request.method == 'POST':
-        post = AddressForm(request.POST, request.FILES)
+        post = PostForm(request.POST, request.FILES)
         if post.is_valid():
             post.save()
 
@@ -63,7 +66,7 @@ def post_create(request):
             context = {}
             context['form'] = post
             return render(request, 'blog/post_create.html', context)
-    form = AddressForm(initial={'author': request.user})
+    form = PostForm(initial={'author': request.user})
     context = {
         'form': form
     }
