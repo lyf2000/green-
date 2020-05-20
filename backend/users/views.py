@@ -73,14 +73,10 @@ class AnonymousRequiredMixin(AccessMixin):
         return redirect(reverse('already-logined'))
 
 
-class SignInnView(
-    AnonymousRequiredMixin,
-    loginView):
+class SignInnView(AnonymousRequiredMixin, loginView):
     form_class = SignInForm
     template_name = 'users/login.html'
     redirect_authenticated_user = True
-
-
 #     TODO next (REDIRECT_FIELD_NAME)
 
 
