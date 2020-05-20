@@ -56,6 +56,7 @@ def activate(request, uidb64, token):
         return render(request, 'users/signup_activated_fail.html')
 
 
+@login_required(login_url=reverse_lazy('home'))
 def already_logined(request):
     return render(request, 'already_logined.html')
 
