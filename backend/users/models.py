@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class User(AbstractUser):
-    follow = models.ManyToManyField('self', related_name='followers', null=True, blank=True)
+    follow = models.ManyToManyField('self', related_name='followers', null=True, blank=True, symmetrical=False)
     email = models.EmailField(_('email address'), unique=True)
 
     # REQUIRED_FIELDS = ['email']
@@ -20,3 +20,10 @@ class User(AbstractUser):
             self.bookmarks.add(post_id)
 
         return True
+
+    def follow_user(self, user_id):
+        try:
+            self.follow.get(id=user_id)
+            self.follow.remove(user_id)
+        except Exception as e:
+            self.follow.add(user_id)

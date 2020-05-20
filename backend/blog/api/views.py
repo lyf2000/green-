@@ -16,6 +16,7 @@ class ActionBasedPermission(AllowAny):
     """
     Grant or deny access to a view, based on a mapping in view.action_permissions
     """
+
     def has_permission(self, request, view):
         for klass, actions in getattr(view, 'action_permissions', {}).items():
             if view.action in actions:
@@ -31,21 +32,24 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [ActionBasedPermission]
     action_permissions = {
         IsAuthenticated: ['update', 'partial_update', 'destroy',
-            # , 'list'
+                           'list',
+                          'create',
                           ],
-        AllowAny: ['retrieve'
-            , 'list', 'create'
+        AllowAny: ['retrieve',
+                   # 'list',
+                   # 'create'
                    ]
     }
     # filterset_fields = ('author', 'title')
     search_fields = ('title',)
-    ordering_fields = ('-created',)
+    ordering_fields = ('created',)
     ordering = ('-created',)
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

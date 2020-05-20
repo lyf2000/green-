@@ -19,18 +19,18 @@
                             <v-list-item-content>
                                 <v-list-item-title>{{post.author.username}}
                                     <v-btn
-                                            @click="follow(post.author.id)"
+                                            @click="followUser(post.author.id)"
                                             x-small
                                             color="#00E676"
-                                            :dark="post.author.is_friend==='true'"
-                                            :outlined="post.author.is_friend!=='true'"
+                                            v-bind:dark="isFriend"
+                                            v-bind:outlined="isNotFriend"
                                     >follow
                                     </v-btn>
                                     <v-icon @click.prevent="bookmarkPost(id)"
                                             v-if="post.marked==='true'"
                                     >mdi-bookmark
                                     </v-icon>
-                                    <v-icon @click="bookmarkPost(id)"
+                                    <v-icon @click.prevent="bookmarkPost(id)"
                                             v-else
                                     >mdi-bookmark-outline
                                     </v-icon>
@@ -71,12 +71,23 @@
                 post: null,
             }
         },
+        computed: {
+            isFriend() {
+                return this.post.author.is_friend === 'true';
+            },
+            isNotFriend() {
+                return this.post.author.is_friend !== 'true';
+            }
+        },
         methods: {
             f() {
                 console.log(12)
             },
             axiosGet(url) {
                 return this.$http.get(url)
+            },
+            axiosPost(url) {
+                return this.$http.post(url)
             },
             loadPost() {
                 const self = this;
@@ -86,22 +97,28 @@
                     })
             },
             bookmarkPost(id) {
+                const self = this;
                 // console.log(11);
                 // console.log(this.marked);
-                this.post.marked = this.post.marked!=='true' ? 'true' : 'false'
                 // console.log(this.post.marked);
                 // const self = this;
-                // self.axiosGet('bookmark/' + id)
-                //     .then(function (response) {
-                //
-                //     })
-                //     .catch(function (response) {
-                //         console.log(response)
-                //     })
+                self.axiosPost('/bookmark/' + id)
+                    .finally(function (response) {
+                        self.post.marked = self.post.marked !== 'true' ? 'true' : 'false';
+                        console.log('ok');
+                    })
             },
-            follow(id) {
-                console.log(id)
-            }
+            followUser(id) {
+                const self = this;
+                // console.log(11);
+                // console.log(this.marked);
+                // console.log(this.post.marked);
+                // const self = this;
+                self.axiosPost('/users/follow/' + id)
+                    .finally(function (response) {
+                        self.post.author.is_friend = self.post.author.is_friend !== 'true' ? 'true' : 'false';
+                    })
+            },
         },
         created() {
             this.loadPost()

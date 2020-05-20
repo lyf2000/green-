@@ -1,8 +1,6 @@
-from rest_framework import viewsets
-
-from blog.api.paginators import MyPaginator
-from users.api.serializers import OtherUserSerializer
-from users.models import User
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
 # class UserViewSet(viewsets.ModelViewSet):
@@ -14,3 +12,11 @@ from users.models import User
     # search_fields = ('title',)
     # ordering_fields = ('created',)
     # ordering = ('-created',)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow_user(request, pk):
+    user = request.user
+    user.follow_user(pk)
+    return Response (status=200)

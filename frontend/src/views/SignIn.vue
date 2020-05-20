@@ -31,6 +31,7 @@
                 self.$http.post('http://127.0.0.1:8000/api/token/', data)
                     .then(function (response) {
                         self.localStorageService.setToken(response.data);
+                        alert('OK');
                     })
                     .catch(function (error) {
                         alert('cred wrong!');

@@ -18,8 +18,9 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
         fields = ('id', 'author', 'title', 'tags', 'text', 'created', 'marked', 'main_img')
 
     def get_marked(self, obj):
+        if self.context['request'].user in obj.added.all():
+            return 'true'
         return 'false'
-        # return 'true'
 
     def create(self, validated_data):
         user = self.context['request'].user

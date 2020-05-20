@@ -1,7 +1,7 @@
 <template>
     <div class="post-create">
         <v-file-input
-                label="File input"
+                label="Main Image"
                 filled
                 prepend-icon="mdi-camera"
                 v-model="img"
@@ -10,10 +10,11 @@
                 @click="savePost"
         >Save
         </v-btn>
-        <v-text-field v-model="title"></v-text-field>
+        <v-text-field placeholder="Title" v-model="title"></v-text-field>
         <markdown-editor
                 toolbar="preview"
                 v-model="text"
+                placeholder="Content"
         >
 
         </markdown-editor>
