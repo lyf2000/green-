@@ -34,7 +34,7 @@ def map(request, pk):
     meet = Meet.objects.get(id=pk)
     return render(request, 'blog/map_test.html', {'meet': meet})
 
-
+@login_required
 def meet_create(request):
     if request.method == 'POST':
         meet = MeetForm(request.POST)

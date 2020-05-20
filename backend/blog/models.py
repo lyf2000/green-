@@ -21,6 +21,8 @@ class Post(models.Model):
 
 
 class Meet(models.Model):
+    title = models.CharField(max_length=100)
+
     lat = models.FloatField()
     lng = models.FloatField()
 

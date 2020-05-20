@@ -13,7 +13,7 @@ def f(v):
 
 
 class MeetForm(forms.ModelForm):
-    # title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     # text = forms.CharField(
     #     label='Text',
     # widget=forms.Textarea(attrs={'placeholder': 'Text'})
@@ -33,7 +33,7 @@ class MeetForm(forms.ModelForm):
 
     class Meta:
         model = Meet
-        fields = ['meet_date', 'lat', 'lng']
+        fields = ['meet_date', 'lat', 'lng', 'title']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,6 +42,7 @@ class MeetForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column('meet_date', css_class='form-group col-md-3 mb-0'),
+                Column('title', css_class='form-group col-md-9 mb-0'),
                 # Column('main_img', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
