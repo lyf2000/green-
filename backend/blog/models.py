@@ -20,6 +20,9 @@ class Post(models.Model):
     def __str__(self):
         return f'Post: {self.title}'
 
+    def get_normal_time(self):
+        return self.created.strftime('%b %d, %Y')
+
 
 class Meet(models.Model):
     title = models.CharField(max_length=100)

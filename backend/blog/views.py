@@ -25,9 +25,9 @@ TIMEDELTA_WITH_UTC_ERROR = datetime.timedelta(hours=3)
 #     return render(request, 'blog/index.html')
 
 
-def post_list(request):
-    f = PostFilter(request.GET, queryset=Post.objects.all())
-    return render(request, 'blog/post_list.html', {'filter': f})
+# def post_list(request):
+#     f = PostFilter(request.GET, queryset=Post.objects.all())
+#     return render(request, 'blog/post_list.html', {'filter': f})
 
 
 class PostDetailView(DetailView):
@@ -46,6 +46,19 @@ def meet_detail(request, pk):
 class MeetListView(ListView):
     model = Meet
     template_name = 'blog/meet_list.html'
+
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post-list.html'
+
+
+# def post_detail(request, pk):
+#     try:
+#         post = Post.objects.get(id=pk)
+#     except Post.DoesNotExist as e:
+#         raise e
+#     return render(request, 'blog/post_detail.html', {'meet': post})
 
 @login_required
 def meet_create(request):

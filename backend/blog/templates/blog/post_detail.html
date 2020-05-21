@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 
 {% block content %}
@@ -7,7 +7,7 @@
 
     <!-- Card image -->
     <div class="view view-cascade overlay">
-        <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
+        <img class="card-img-top" src="{{ post.main_img.url }}"
              alt="Card image cap">
         <a href="#">
             <div class="mask rgba-white-slight"></div>
@@ -22,23 +22,15 @@
             <div class="card-body card-body-cascade text-center">
 
                 <!-- Title -->
-                <h4 class="card-title"><strong>My adventure</strong></h4>
+                <h4 class="card-title"><strong>{{ post.title }}</strong></h4>
                 <!-- Subtitle -->
-                <h6 class="font-weight-bold indigo-text py-2">Photography</h6>
+                <h6 class="font-weight-bold indigo-text py-2">{{ post.get_normal_time }}</h6>
                 <!-- Text -->
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem
-                    perspiciatis
-                    voluptatum a, quo nobis, non commodi quia repellendus sequi nulla voluptatem dicta reprehenderit,
-                    placeat
-                    laborum ut beatae ullam suscipit veniam.
-                </p>
+                <p class="card-text">{{ post.text }}</p>
 
             </div>
         </div>
     </div>
-
-
-    {{ object.text|safe_markdown }}
     
 
 
