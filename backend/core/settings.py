@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'chat',
 
     'rest_framework',
+    'rest_framework_swagger',
     'taggit',
     'taggit_labels',
     'django_filters',
@@ -56,7 +57,7 @@ INSTALLED_APPS = [
     'channels',
     'corsheaders',
     'crispy_forms',
-    'django_extensions',
+    # 'django_extensions',
 
 ]
 
@@ -177,6 +178,7 @@ REST_FRAMEWORK = {
     ],
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'PAGE_SIZE': 100,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 SIMPLE_JWT = {

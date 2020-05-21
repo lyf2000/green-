@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.urls import path, include
 from django.views.generic import TemplateView
-
+from rest_framework_swagger.views import get_swagger_view
 from users.views import already_logined
 from . import settings
+
+schema_view = get_swagger_view(title='Pastebin API')
 
 api_urlpatterns = [
     path('api/', include('blog.api.urls')),
@@ -34,12 +36,13 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('blog.urls')),
                   path('', include('users.urls')),
-                  path('chat/', include('chat.urls')),
+                  # path('chat/', include('chat.urls')),
+                  path('swag/', schema_view),
+
               ] + api_urlpatterns
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 handler404 = 'blog.views.e_handler404'
 handler500 = 'blog.views.e_handler500'

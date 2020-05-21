@@ -7,9 +7,9 @@ from .views import chat, page, user
 app_name = 'chat'
 
 urlpatterns = [
-    # path('', chat, name='chat'),
-    # path('user/', user, name='user'),
-    # path('page/', page, name='page'),
-    # path('api/', include('chat.api.urls'))
+    path('', chat, name='chat'),
+    path('user/', user, name='user'),
+    path('page/', page, name='page'),
+    path('api/', include('chat.api.urls'))
 
 ]
